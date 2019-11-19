@@ -1,0 +1,2 @@
+export const NUMBER_OF_BALLS_TO_DRAW = 35;
+export const OVERALL_NUMBER_OF_BALLS = 48;
