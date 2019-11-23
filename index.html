@@ -13,13 +13,15 @@
         <a class="navbar-brand">Navbar</a>
     </nav>
 
-    <div class="col-1" style="position: absolute; top: 50px; right: 10px; margin: 20px; font-weight: 600; font-size: 20px; height: 60px; width: 100px;">
-        Here goes timer
-    </div>
 
     <div class="container content-container" style="max-width: 70%">
         <div class="row" >
             <div class="col-12 content-item">
+                <div>
+                    <p style="float: left; font-size: 50px; font-weight: 600" id="minutes">minutes</p>
+                    <p style="float: left; font-size: 50px; font-weight: 600">:</p>
+                    <p style="float: left; font-size: 50px; font-weight: 600" id="seconds">seconds</p>
+                </div>
                 <div class="drum">
                     <div class="circle">
 
@@ -35,7 +37,15 @@
             </div>
 
             <div class="col-5" style="float: left">
-                Here goes purchasing ticket interface
+                <button class="form-control" style="margin-bottom: 3px"> Add ticket </button>
+                <div class="col-12 ticket-purchase-container">
+                    <div class="col-12 ticket">
+                        ssd
+                        <span> x </span>
+                    </div>
+                </div>
+                <input type="text" class="form-control" placeholder="Amount: ">
+                <button class="form-control"> Pay </button>
             </div>
         </div>
         <div class="col-12 content-item">

@@ -1,5 +1,7 @@
 import { NUMBER_OF_BALLS_TO_DRAW, OVERALL_NUMBER_OF_BALLS } from "./constants";
+import Ball from "./ball";
 
+export const selectedNumbers = [];
 
 export const createDrawnNumbersPlaceholder = () => {
     const drawnNumbersPlaceHolder = document.getElementById("drawn-numbers");
@@ -27,7 +29,22 @@ export const createSelectNumbersPlaceholder = () => {
         const number = document.createElement("div");
         number.className = "circle";
         number.innerText = i.toString();
+        number.onclick = selectNumber;
 
         selectNumbers.appendChild(number);
     }
+};
+
+const selectNumber = (event) => {
+    let index = selectedNumbers.indexOf(parseInt(event.target.innerHTML));
+    if (index === -1) {
+        if (selectedNumbers.length < 6) {
+            selectedNumbers.push(parseInt(event.target.innerHTML));
+            event.target.style.borderColor = Ball.getColour(parseInt(event.target.innerHTML));
+        }
+    } else {
+        selectedNumbers.splice(index, 1);
+        event.target.style.borderColor = "#b9b9b9"
+    }
+    console.log(selectedNumbers);
 };
