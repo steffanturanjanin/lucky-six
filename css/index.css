@@ -12,6 +12,8 @@ body {
     padding: 10px;
     text-align: center;
     margin-bottom: 20px;
+    min-height: 100px;
+    display: table;
 }
 
 .circle {
@@ -52,7 +54,7 @@ body {
     color: white;
     font-weight: 600;
     font-size: 48px;
-    padding: 6%;
+    padding: 50px;
 
 }
 
@@ -88,14 +90,57 @@ body {
     overflow: auto;
 }
 
-.ticket {
+.combination {
     background-color: white;
     border: solid 1px #dbdbdb;
     padding: 10px;
     text-align: center;
     margin-bottom: 1px;
+    font-size: 16px;
+    font-weight: 600;
+    float: left;
+    display: table-row;
 }
 
-.ticket span {
+#tickets-container .combination {
+    min-height: 82px;
+    border: solid 2px #ffe900; margin-bottom: 5px;
+}
+
+.combination span {
     float: right;
+}
+
+.combination .col-6 {
+    float: left;
+}
+
+.combination .col-6 p {
+    margin: 0;
+}
+
+.combination-info {
+    text-align: right;
+    font-size: 14px;
+    font-weight: 400;
+    color: #b0aebc;
+    font-style: italic;
+}
+
+.combination-holder {
+    float: right;
+    margin-top: 10px;
+}
+
+.combination-holder p {
+    float: left;
+}
+
+#tickets-container p {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+#tickets-container {
+    width: 100%;
 }

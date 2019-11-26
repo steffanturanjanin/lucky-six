@@ -1,5 +1,5 @@
-import { OVERALL_NUMBER_OF_BALLS } from "./constants";
-import Ball from "./ball";
+import { OVERALL_NUMBER_OF_BALLS } from "../constants";
+import Ball from "../ball/ball";
 
 import {Observable, timer, NEVER, BehaviorSubject, fromEvent, of, range, from, interval, empty, mapTo} from 'rxjs';
 import {

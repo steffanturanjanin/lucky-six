@@ -1,10 +1,9 @@
 console.log('hello? from the other side??? is this working??');
 
-import { createDrawnNumbersPlaceholder, createSelectNumbersPlaceholder } from "./ui-creator";
+import { initializeUI } from "./ui-creator";
 import {countdownTimer} from './timer';
 
-createDrawnNumbersPlaceholder();
-createSelectNumbersPlaceholder();
+initializeUI();
 
 countdownTimer();
 
@@ -25,7 +24,7 @@ import {
     scan, withLatestFrom
 } from 'rxjs/operators';
 
-import Drum from './drum';
+import Drum from './drum/drum';
 
 let drum = new Drum();
 

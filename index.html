@@ -31,28 +31,49 @@
                 </div>
             </div>
 
-        <div class="col-12 content-item">
-            <div class="col-7" style="float: left" id="select-numbers">
-
-            </div>
-
-            <div class="col-5" style="float: left">
-                <button class="form-control" style="margin-bottom: 3px"> Add ticket </button>
-                <div class="col-12 ticket-purchase-container">
-                    <div class="col-12 ticket">
-                        ssd
-                        <span> x </span>
+            <div id="tickets-container" hidden>
+                <div class="col-12 content-item">
+                    <div class="col-4 combination">
+                        <div class="col-6">
+                                <div class="combination-holder">
+                                    <p>11</p>
+                                    <p>21</p>
+                                    <p>31</p>
+                                    <p>41</p>
+                                    <p>51</p>
+                                    <p>61</p>
+                                </div>
+                        </div>
+                        <div class="col-6 combination-info">
+                            <p>
+                                won: 50
+                            </p>
+                            <p>
+                              value: 30
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <input type="text" class="form-control" placeholder="Amount: ">
-                <button class="form-control"> Pay </button>
+            </div>
+
+            <div class="col-12 content-item">
+                <div class="col-7" style="float: left; max-width: 480px;" id="select-numbers">
+
+                </div>
+
+                <div class="col-5" style="float: right">
+                    <button class="form-control" style="margin-bottom: 3px" id="btn-add-combination" disabled> Add combination </button>
+                    <div class="col-12 ticket-purchase-container" id="ticket-purchase-container">
+
+                    </div>
+                    <input type="text" class="form-control" placeholder="Amount: " value="30">
+                    <button class="form-control" id="btn-pay"> Pay </button>
+                </div>
+            </div>
+            <div class="col-12 content-item">
+                Here goes history of played tickets
             </div>
         </div>
-        <div class="col-12 content-item">
-            Here goes history of played tickets
-        </div>
-        </div>
-
     </div>
 
 
