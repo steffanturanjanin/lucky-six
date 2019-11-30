@@ -3,13 +3,13 @@ import Ball from "./ball/ball";
 import Combination from "./combination/combination";
 
 
-//import {SELECTED_NUMBERS, COMBINATIONS, TICKETS} from "./global";
+import {SELECTED_NUMBERS, COMBINATIONS, TICKETS} from "./global";
 import Ticket from "./ticket/ticket";
 
 
-let SELECTED_NUMBERS = [];
+/*let SELECTED_NUMBERS = [];
 let COMBINATIONS = [];
-let TICKETS = [];
+export let TICKETS = [];*/
 
 export const createDrawnNumbersPlaceholder = () => {
     const drawnNumbersPlaceHolder = document.getElementById("drawn-numbers");
@@ -97,21 +97,22 @@ const addCombinationOnClickListener = () => {
 };
 
 const addTicket = () => {
-    console.log(COMBINATIONS);
     const ticket = new Ticket(COMBINATIONS);
+    const combinationValue = parseFloat(document.getElementById("txt-input-value").value);
+    ticket.setCombinationValue(combinationValue);
     TICKETS.push(ticket);
 
-
+    console.log(TICKETS);
 
     const ticketsContainer = document.getElementById("tickets-container");
     ticketsContainer.hidden = false;
 
     const ticketDiv = document.createElement("div");
     ticketDiv.className = "col-12 content-item";
+    ticketDiv.id = ticket.id;
 
 
-
-    ticket.combinations.forEach((combination, index) => {
+    ticket.combinations.forEach((combination, combinationIndex) => {
         const combinationContainerDiv = document.createElement("div");
         combinationContainerDiv.className = "col-4 combination";
         const col6Div = document.createElement("div");
@@ -119,8 +120,9 @@ const addTicket = () => {
         const combinationHolderDiv = document.createElement("div");
         combinationHolderDiv.className = "combination-holder";
 
-        combination.numbers.forEach((number, index) => {
+        combination.numbers.forEach((number, numberIndex) => {
             const numberP = document.createElement("p");
+            numberP.id = ticket.id + combinationIndex + numberIndex;
             numberP.innerText = number;
             combinationHolderDiv.appendChild(numberP);
         });
@@ -143,8 +145,12 @@ const addTicket = () => {
     });
     ticketsContainer.appendChild(ticketDiv);
 
-
-    COMBINATIONS.splice(0, COMBINATIONS.length);
+    COMBINATIONS.length = 0;
+    const ticketPurchaseContainer = document.getElementById("ticket-purchase-container");
+    while (ticketPurchaseContainer.firstChild) {
+        ticketPurchaseContainer.firstChild.remove();
+    }
+    console.log(COMBINATIONS);
 };
 
 const addTicketOnClickListener = () => {

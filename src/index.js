@@ -30,7 +30,7 @@ let drum = new Drum();
 
 console.log(drum);
 
-drum.startDrawing();
+setTimeout(() => {drum.startDrawing()}, 20000);
 
 /*import {niz} from "./ui-creator";
 console.log(niz);*/

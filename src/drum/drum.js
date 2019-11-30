@@ -16,6 +16,13 @@ import {
     scan, withLatestFrom
 } from 'rxjs/operators';
 
+//import {TICKETS} from '../ui-creator';
+import {TICKETS, updateUnpredictedCombinations} from '../global';
+import Ticket from "../ticket/ticket";
+import Combination from "../combination/combination";
+import {updatePredictedNumbers, updatePredictedCombinations, updateUnpredictedNumbers} from "../global";
+
+let tickets = new Ticket([new Combination([1, 2, 3, 4, 5, 6], 0)]);
 
 export default class Drum {
     constructor() {
@@ -25,6 +32,25 @@ export default class Drum {
         }
         this.drawnBalls = [];
     }
+
+    /*Maybe drawBall can be promise?*/
+
+    asyncDrawBall = () => {
+        return new Promise((resolve, reject) => {
+                let index = Math.floor(Math.random() * this.balls.length);
+                let drawnBall = this.balls[index];
+                this.balls.splice(index, 1);
+
+                this.drawnBalls.push(drawnBall);
+
+                let ballSlots = document.querySelectorAll(".number > div");
+                let number = this.drawnBalls[this.drawnBalls.length - 1].number;
+                ballSlots[this.drawnBalls.length - 1].style.backgroundColor = Ball.getColour(number);
+                ballSlots[this.drawnBalls.length - 1].innerHTML = number;
+
+                resolve(drawnBall);
+        })
+    };
 
     drawBall = () => {
         let index = Math.floor(Math.random() * this.balls.length);
@@ -82,9 +108,20 @@ export default class Drum {
         );
 
         drawing$.subscribe({
-            next: () => this.drawBall(),
-            complete: () => console.log("Completed! Drawn numbers: ", this.drawnBalls)
-        })
+            next: () =>
+            {
+                this.asyncDrawBall()
+                    .then((ball) => updatePredictedNumbers(ball.number))
+                    .then(() => updatePredictedCombinations(this.drawnBalls, false))
+            },
+            complete: () =>
+            {
+                console.log("Completed! Drawn numbers: ", this.drawnBalls);
+                updateUnpredictedNumbers(this.drawnBalls);
+                updatePredictedCombinations(this.drawnBalls, true)
+            }
+        });
+
     }
 
 }
