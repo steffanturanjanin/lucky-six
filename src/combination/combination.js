@@ -2,7 +2,10 @@ import {updatePredictedCombinationUI, updatePredictedNumbersUI} from "./ui-creat
 
 export default class Combination {
     constructor(numbers, round) {
-        this.numbers = numbers;
+        this.numbers = [];
+        numbers.forEach((number) => {
+            this.numbers.push(number);
+        });
         this.round = round;
         this.value = 0;
         this.price = 0;
@@ -24,12 +27,14 @@ export default class Combination {
 
     updatePredictedCombination = (drawn_balls, drawing_completed, ticket_id, combination_id) => {
         if (!drawing_completed) {
-            if (this.predictedCombination(drawn_balls)) {
-                this.won = true;
-                this.wonAt = 36 - drawn_balls.length;
-                this.price = this.value * this.wonAt;
+            if (!this.won) {
+                if (this.predictedCombination(drawn_balls)) {
+                    this.won = true;
+                    this.wonAt = 36 - drawn_balls.length;
+                    this.price = this.value * this.wonAt;
 
-                updatePredictedCombinationUI(ticket_id, combination_id, this.won, this.value, this.price);
+                    updatePredictedCombinationUI(ticket_id, combination_id, this.won, this.value, this.price);
+                }
             }
         } else {
             updatePredictedCombinationUI(ticket_id, combination_id, this.won, this.value, this.price);

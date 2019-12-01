@@ -20,7 +20,9 @@ import {
 import {TICKETS, updateUnpredictedCombinations} from '../global';
 import Ticket from "../ticket/ticket";
 import Combination from "../combination/combination";
-import {updatePredictedNumbers, updatePredictedCombinations, updateUnpredictedNumbers} from "../global";
+import { updatePredictedNumbers, updatePredictedCombinations, updateUnpredictedNumbers } from "../global";
+import { gameLogic } from "../game";
+import { restartUI } from "../ui-creator";
 
 let tickets = new Ticket([new Combination([1, 2, 3, 4, 5, 6], 0)]);
 
@@ -108,17 +110,16 @@ export default class Drum {
         );
 
         drawing$.subscribe({
-            next: () =>
-            {
+            next: () => {
                 this.asyncDrawBall()
                     .then((ball) => updatePredictedNumbers(ball.number))
                     .then(() => updatePredictedCombinations(this.drawnBalls, false))
             },
-            complete: () =>
-            {
+            complete: () => {
                 console.log("Completed! Drawn numbers: ", this.drawnBalls);
                 updateUnpredictedNumbers(this.drawnBalls);
-                updatePredictedCombinations(this.drawnBalls, true)
+                updatePredictedCombinations(this.drawnBalls, true);
+                setTimeout(() => { restartUI(); gameLogic()}, 3000)
             }
         });
 

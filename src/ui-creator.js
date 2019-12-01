@@ -5,6 +5,8 @@ import Combination from "./combination/combination";
 
 import {SELECTED_NUMBERS, COMBINATIONS, TICKETS} from "./global";
 import Ticket from "./ticket/ticket";
+import {restartSelectedNumbersUI} from "./combination/ui-creator";
+import {disablePayButton} from "./ticket/ui-creator";
 
 
 /*let SELECTED_NUMBERS = [];
@@ -79,6 +81,9 @@ export const addCombination = () => {
     combination.appendChild(span);
     ticketContainer.appendChild(combination);
     console.log(COMBINATIONS);
+
+    restartSelectedNumbersUI();
+    SELECTED_NUMBERS.length = 0;
 };
 
 const deleteCombination = (event) => {
@@ -132,7 +137,7 @@ const addTicket = () => {
         const wonP = document.createElement("p");
         wonP.innerText = "won: 0";
         const valueP = document.createElement("p");
-        valueP.innerText = "value: 0";
+        valueP.innerText = "value: " + combination.value;
         combinationInfoDiv.appendChild(wonP);
         combinationInfoDiv.appendChild(valueP);
 
@@ -143,7 +148,9 @@ const addTicket = () => {
         ticketDiv.appendChild(combinationContainerDiv)
 
     });
-    ticketsContainer.appendChild(ticketDiv);
+    if (ticket.combinations.length > 0) {
+        ticketsContainer.appendChild(ticketDiv);
+    }
 
     COMBINATIONS.length = 0;
     const ticketPurchaseContainer = document.getElementById("ticket-purchase-container");
@@ -163,5 +170,23 @@ export const initializeUI = () => {
     createSelectNumbersPlaceholder();
     addCombinationOnClickListener();
     addTicketOnClickListener();
+};
 
+const restartPool = () => {
+    const pool = document.querySelectorAll("#drawn-numbers .circle");
+    pool.forEach((slot) => { slot.style.backgroundColor = "#2b2b2b"; slot.innerHTML = ""})
+};
+
+const restartTickets = () => {
+    const ticketsContainer = document.getElementById("tickets-container");
+    while (ticketsContainer.firstChild) {
+        ticketsContainer.firstChild.remove();
+    }
+    TICKETS.length = 0;
+};
+
+export const restartUI = () => {
+    restartPool();
+    restartTickets();
+    disablePayButton(false);
 };

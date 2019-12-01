@@ -1,7 +1,9 @@
 import { Observable, timer, NEVER, BehaviorSubject, fromEvent, of } from 'rxjs';
 import { map, tap, takeWhile, takeUntil, share, startWith, switchMap, filter } from 'rxjs/operators';
 
-export const countdownTimer = () => {
+import { disablePayButton } from "./ticket/ui-creator";
+
+export const countdownTimer = (onCompleteCallback) => {
 
     const toggle$ = new BehaviorSubject(true);
 
@@ -56,7 +58,10 @@ export const countdownTimer = () => {
         updateDom(seconds$, secondsElement);
 
         remainingSeconds$.subscribe({
-            complete: () =>  logic()
+            complete: () => {
+                disablePayButton(true);
+                onCompleteCallback();
+            }
         });
 
         function updateDom(source$, element) {
