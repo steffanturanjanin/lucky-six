@@ -23,11 +23,14 @@ import Combination from "../combination/combination";
 import { updatePredictedNumbers, updatePredictedCombinations, updateUnpredictedNumbers } from "../global";
 import { gameLogic } from "../game";
 import { restartUI } from "../ui-creator";
+import Round from "../round/round";
+import {addRoundUI} from "../round/ui-creator";
 
 let tickets = new Ticket([new Combination([1, 2, 3, 4, 5, 6], 0)]);
 
 export default class Drum {
     constructor() {
+        this.round = new Round();
         this.balls = [];
         for (let i = 1; i <= OVERALL_NUMBER_OF_BALLS; i++) {
             this.balls.push(new Ball(i))
@@ -112,14 +115,19 @@ export default class Drum {
         drawing$.subscribe({
             next: () => {
                 this.asyncDrawBall()
-                    .then((ball) => updatePredictedNumbers(ball.number))
-                    .then(() => updatePredictedCombinations(this.drawnBalls, false))
+                    .then((ball) => /*updatePredictedNumbers(ball.number)*/ this.round.updatePredictedNumbers(ball.number))
+                    .then(() => /*updatePredictedCombinations(this.drawnBalls, false)*/ this.round.updatePredictedCombinations(this.drawnBalls, false))
             },
             complete: () => {
                 console.log("Completed! Drawn numbers: ", this.drawnBalls);
-                updateUnpredictedNumbers(this.drawnBalls);
-                updatePredictedCombinations(this.drawnBalls, true);
-                setTimeout(() => { restartUI(); gameLogic()}, 3000)
+                /*updateUnpredictedNumbers(this.drawnBalls);
+                updatePredictedCombinations(this.drawnBalls, true);*/
+                this.round.updateUnpredictedNumbers(this.drawnBalls);
+                this.round.updatePredictedCombinations(this.drawnBalls, true);
+                this.round.drawnBalls = this.drawnBalls;
+                this.round.save()
+                    .then(round => addRoundUI(round));
+                setTimeout(() => { restartUI(); gameLogic()}, 5000)
             }
         });
 

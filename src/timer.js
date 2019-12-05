@@ -9,7 +9,7 @@ export const countdownTimer = (onCompleteCallback) => {
 
     const K = 1000;
     const INTERVAL = K;
-    const MINUTES = 0.15;
+    const MINUTES = 0.45;
     const TIME = MINUTES * K * 60;
 
     let current;

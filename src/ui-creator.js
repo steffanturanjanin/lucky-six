@@ -7,6 +7,9 @@ import {SELECTED_NUMBERS, COMBINATIONS, TICKETS} from "./global";
 import Ticket from "./ticket/ticket";
 import {restartSelectedNumbersUI} from "./combination/ui-creator";
 import {disablePayButton} from "./ticket/ui-creator";
+import {GET_ROUNDS} from "../api";
+import {addRoundUI} from "./round/ui-creator";
+import round from "./round/round";
 
 
 /*let SELECTED_NUMBERS = [];
@@ -69,7 +72,7 @@ const selectNumber = (event) => {
 };
 
 export const addCombination = () => {
-    COMBINATIONS.push(new Combination(SELECTED_NUMBERS.slice(), 0));
+    COMBINATIONS.push(new Combination(SELECTED_NUMBERS));
 
     const ticketContainer = document.getElementById("ticket-purchase-container");
     const combination = document.createElement("div");
@@ -83,7 +86,7 @@ export const addCombination = () => {
     console.log(COMBINATIONS);
 
     restartSelectedNumbersUI();
-    SELECTED_NUMBERS.length = 0;
+    SELECTED_NUMBERS.splice(0, SELECTED_NUMBERS.length);
 };
 
 const deleteCombination = (event) => {
@@ -145,12 +148,12 @@ const addTicket = () => {
         combinationContainerDiv.appendChild(col6Div);
         combinationContainerDiv.appendChild(combinationInfoDiv);
 
-        ticketDiv.appendChild(combinationContainerDiv)
+        ticketDiv.appendChild(combinationContainerDiv);
+
+        ticketsContainer.appendChild(ticketDiv);
 
     });
-    if (ticket.combinations.length > 0) {
-        ticketsContainer.appendChild(ticketDiv);
-    }
+
 
     COMBINATIONS.length = 0;
     const ticketPurchaseContainer = document.getElementById("ticket-purchase-container");
@@ -165,11 +168,18 @@ const addTicketOnClickListener = () => {
     payButton.onclick = addTicket;
 };
 
+const createRoundHistory = () => {
+    GET_ROUNDS()
+        .then(rounds => rounds.filter(round => round.tickets.length > 0))
+        .then(rounds => rounds.forEach(round => addRoundUI(round)))
+};
+
 export const initializeUI = () => {
     createDrawnNumbersPlaceholder();
     createSelectNumbersPlaceholder();
     addCombinationOnClickListener();
-    addTicketOnClickListener();
+    createRoundHistory();
+    //addTicketOnClickListener();
 };
 
 const restartPool = () => {

@@ -2,10 +2,8 @@ import {updatePredictedCombinationUI, updatePredictedNumbersUI} from "./ui-creat
 
 export default class Combination {
     constructor(numbers, round) {
-        this.numbers = [];
-        numbers.forEach((number) => {
-            this.numbers.push(number);
-        });
+        console.log(numbers.slice());
+        this.numbers = numbers.slice();
         this.round = round;
         this.value = 0;
         this.price = 0;
