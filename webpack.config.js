@@ -19,7 +19,9 @@ const config = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                use: {
+                    loader: "babel-loader"
+                }
             },
             // CSS Files
             {
@@ -29,18 +31,22 @@ const config = {
         ]
     },
     // Plugins
-    plugins: [
+    /*plugins: [
         new HtmlWebpackPlugin({
-            template: 'index.html',
+            template: './index.html',
             filename: 'index.html',
             hash: true
         })
-    ],
+    ],*/
     // OPTIONAL
     // Reload On File Change
     watch: true,
     // Development Tools (Map Errors To Source File)
     devtool: 'source-map',
+
+    /*devServer: {
+        contentBase: './dist' //where contents are served from
+    },*/
 };
 // Exports
 module.exports = config;
