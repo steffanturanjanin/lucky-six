@@ -11,7 +11,10 @@ export const addTicketUI = (tickets) => {
     console.log(COMBINATIONS);
 
     const ticket = new Ticket(COMBINATIONS);
-    const combinationValue = parseFloat(document.getElementById("txt-input-value").value);
+    let combinationValue = parseFloat(document.getElementById("txt-input-value").value);
+    if (isNaN(combinationValue) || combinationValue < 0) {
+        combinationValue = 30;
+    }
     ticket.setCombinationValue(combinationValue);
     tickets.push(ticket);
 
