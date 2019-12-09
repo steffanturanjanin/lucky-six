@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e996d3d1-b106-4d6f-9eda-053ea5de6fe4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/bundle.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ticket/ui-creator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ticket/ui-creator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/drum/drum.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/drum/drum.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/node_modules/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -30,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/drum/drum.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2125">
-              <caret line="128" column="51" selection-start-line="128" selection-start-column="51" selection-end-line="128" selection-end-column="51" />
+            <state relative-caret-position="289">
+              <caret line="129" column="39" selection-start-line="129" selection-start-column="39" selection-end-line="129" selection-end-column="39" />
               <folding>
                 <element signature="e#0#55#0" expanded="true" />
                 <element signature="e#434#499#0" expanded="true" />
@@ -92,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ticket/ui-creator.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="145">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -165,7 +161,6 @@
         <option value="$PROJECT_DIR$/src/combination/ui-creator.js" />
         <option value="$PROJECT_DIR$/api/index.js" />
         <option value="$PROJECT_DIR$/src/round/round.js" />
-        <option value="$PROJECT_DIR$/src/drum/drum.js" />
         <option value="$PROJECT_DIR$/src/round/ui-creator.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/package.json" />
@@ -174,6 +169,7 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/ui-creator.js" />
         <option value="$PROJECT_DIR$/src/ticket/ui-creator.js" />
+        <option value="$PROJECT_DIR$/src/drum/drum.js" />
       </list>
     </option>
   </component>
@@ -213,6 +209,12 @@
               <item name="lucky-six" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="combination" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lucky-six" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lucky-six" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="drum" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="lucky-six" type="b2602c69:ProjectViewProjectNode" />
@@ -269,12 +271,12 @@
       <option name="presentableId" value="Default" />
       <updated>1574020606147</updated>
       <workItem from="1574020613552" duration="112767000" />
-      <workItem from="1574777711669" duration="139365000" />
+      <workItem from="1574777711669" duration="140193000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="252132000" />
+    <option name="totallyTimeSpent" value="252960000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -454,17 +456,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/drum/drum.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2125">
-          <caret line="128" column="51" selection-start-line="128" selection-start-column="51" selection-end-line="128" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#55#0" expanded="true" />
-            <element signature="e#434#499#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.babelrc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -554,9 +545,20 @@
     <entry file="file://$PROJECT_DIR$/src/ticket/ui-creator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="145">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/drum/drum.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="129" column="39" selection-start-line="129" selection-start-column="39" selection-end-line="129" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#55#0" expanded="true" />
+            <element signature="e#434#499#0" expanded="true" />
           </folding>
         </state>
       </provider>

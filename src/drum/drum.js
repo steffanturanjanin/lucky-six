@@ -125,8 +125,9 @@ export default class Drum {
                 this.round.updateUnpredictedNumbers(this.drawnBalls);
                 this.round.updatePredictedCombinations(this.drawnBalls, true);
                 this.round.drawnBalls = this.drawnBalls;
-                this.round.save()
-                    .then(round => addRoundUI(round));
+                this.round.save();
+                    //.then(round => addRoundUI(round));
+                addRoundUI(this.round);
                 setTimeout(() => { restartUI(); gameLogic()}, 5000)
             }
         });
