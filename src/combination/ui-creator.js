@@ -1,11 +1,7 @@
-
-
 export const updatePredictedNumbersUI = (ticket_id, combination_id, number_id, predicted) => {
     const numberP = document.getElementById(ticket_id + combination_id + number_id);
     numberP.style.color = predicted ? "#32CD32" : "#FF0000";
-    console.log(numberP);
 };
-
 
 export const updatePredictedCombinationUI = (ticket_id, combination_id, win, value, price) => {
     const ticketContainer = document.getElementById(ticket_id);

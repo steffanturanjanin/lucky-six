@@ -1,24 +1,22 @@
 import Ticket from "./ticket";
-import {COMBINATIONS, TICKETS} from "../global";
-import combination from "../combination/combination";
+import { COMBINATIONS } from "../global";
+import { addCombinationRoundUI } from "../combination/ui-creator";
+import { DEFAULT_COMBINATION_VALUE } from "../constants";
 
 export const disablePayButton = (disable) => {
     document.getElementById("btn-pay").disabled = disable;
 };
 
 export const addTicketUI = (tickets) => {
-
-    console.log(COMBINATIONS);
-
     const ticket = new Ticket(COMBINATIONS);
     let combinationValue = parseFloat(document.getElementById("txt-input-value").value);
+
     if (isNaN(combinationValue) || combinationValue < 0) {
-        combinationValue = 30;
+        combinationValue = DEFAULT_COMBINATION_VALUE;
     }
+
     ticket.setCombinationValue(combinationValue);
     tickets.push(ticket);
-
-    console.log(ticket);
 
     const ticketsContainer = document.getElementById("tickets-container");
     ticketsContainer.hidden = false;
@@ -26,7 +24,6 @@ export const addTicketUI = (tickets) => {
     const ticketDiv = document.createElement("div");
     ticketDiv.className = "col-12 content-item";
     ticketDiv.id = ticket.id;
-
 
     ticket.combinations.forEach((combination, combinationIndex) => {
         const combinationContainerDiv = document.createElement("div");
@@ -62,16 +59,14 @@ export const addTicketUI = (tickets) => {
 
     });
 
-
     COMBINATIONS.length = 0;
+
     const ticketPurchaseContainer = document.getElementById("ticket-purchase-container");
+
     while (ticketPurchaseContainer.firstChild) {
         ticketPurchaseContainer.firstChild.remove();
     }
-    console.log(COMBINATIONS);
 };
-
-import { addCombinationRoundUI } from "../combination/ui-creator";
 
 export const addTicketRoundUI = (ticket, drawn_balls) => {
     const ticketContainer = document.createElement("div");

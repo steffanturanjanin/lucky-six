@@ -1,4 +1,4 @@
-import {BLACK, BLUE, BROWN, COLOURS, GREEN, KHAKI, PURPLE, RED, YELLOW} from "../constants";
+import { BLACK, BLUE, BROWN, COLOURS, GREEN, KHAKI, PURPLE, RED, YELLOW } from "../constants";
 
 export default class Ball {
     constructor(number) {
@@ -45,5 +45,4 @@ export default class Ball {
             }
         }
      }
-
 }

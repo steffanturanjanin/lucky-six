@@ -13,12 +13,11 @@ export default class Ticket {
 
     updatePredictedNumbers = (number) => {
         this.combinations.forEach((combination, combination_id) => {
-            let number_id = combination.predictedNumber(number);
+            const number_id = combination.predictedNumber(number);
             if (number_id !== -1) {
                 updatePredictedNumbersUI(this.id, combination_id, number_id, true);
             }
         });
-
     };
 
     updatePredictedCombinations = (drawn_balls, drawing_completed) => {
@@ -46,4 +45,3 @@ export default class Ticket {
         })
     }
 }
-

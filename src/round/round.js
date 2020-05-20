@@ -1,4 +1,4 @@
-import {TICKETS, uuidv4} from "../global";
+import { uuidv4 } from "../global";
 import { COMBINATIONS } from "../global";
 import { addTicketOnClickEventListener } from "./ui-creator";
 import { addTicketUI } from "../ticket/ui-creator";
@@ -21,7 +21,6 @@ export default class Round {
         if (COMBINATIONS.length > 0) {
             addTicketUI(this.tickets);
         }
-        console.log(this);
     };
 
     updatePredictedNumbers = (number) => {

@@ -1,8 +1,8 @@
-import {updatePredictedCombinationUI, updatePredictedNumbersUI} from "./ui-creator";
+import { updatePredictedCombinationUI, updatePredictedNumbersUI } from "./ui-creator";
+import { NUMBER_OF_BALLS_TO_DRAW } from "../constants";
 
 export default class Combination {
     constructor(numbers, round) {
-        console.log(numbers.slice());
         this.numbers = numbers.slice();
         this.round = round;
         this.value = 0;
@@ -21,14 +21,12 @@ export default class Combination {
         , true);
     };
 
-
-
     updatePredictedCombination = (drawn_balls, drawing_completed, ticket_id, combination_id) => {
         if (!drawing_completed) {
             if (!this.won) {
                 if (this.predictedCombination(drawn_balls)) {
                     this.won = true;
-                    this.wonAt = 36 - drawn_balls.length;
+                    this.wonAt = NUMBER_OF_BALLS_TO_DRAW - drawn_balls.length;
                     this.price = this.value * this.wonAt;
 
                     updatePredictedCombinationUI(ticket_id, combination_id, this.won, this.value, this.price);
@@ -37,7 +35,6 @@ export default class Combination {
         } else {
             updatePredictedCombinationUI(ticket_id, combination_id, this.won, this.value, this.price);
         }
-
     };
 
     updateUnpredictedNumbers = (drawn_balls, ticket_id, combination_id) => {
@@ -49,11 +46,4 @@ export default class Combination {
             })
         }
     };
-
-    /*updateUnpredictedCombinations = (ticket_id, combination_id) => {
-        if (!this.won) {
-            updateUnpredictedCombinationsUI(ticket_id, combination_id)
-        }
-    }*/
-
 }

@@ -1,32 +1,13 @@
-import { OVERALL_NUMBER_OF_BALLS } from "../constants";
+import { NUMBER_OF_BALLS_TO_DRAW, OVERALL_NUMBER_OF_BALLS } from "../constants";
 import Ball from "../ball/ball";
 
-import {Observable, timer, NEVER, BehaviorSubject, fromEvent, of, range, from, interval, empty, mapTo} from 'rxjs';
-import {
-    map,
-    tap,
-    takeWhile,
-    takeUntil,
-    share,
-    startWith,
-    switchMap,
-    filter,
-    concatMap,
-    delay,
-    scan, withLatestFrom
-} from 'rxjs/operators';
+import { interval, mapTo } from 'rxjs';
+import { map, takeWhile } from 'rxjs/operators';
 
-//import {TICKETS} from '../ui-creator';
-import {TICKETS, updateUnpredictedCombinations} from '../global';
-import Ticket from "../ticket/ticket";
-import Combination from "../combination/combination";
-import { updatePredictedNumbers, updatePredictedCombinations, updateUnpredictedNumbers } from "../global";
 import { gameLogic } from "../game";
 import { restartUI } from "../ui-creator";
 import Round from "../round/round";
-import {addRoundUI} from "../round/ui-creator";
-
-let tickets = new Ticket([new Combination([1, 2, 3, 4, 5, 6], 0)]);
+import { addRoundUI } from "../round/ui-creator";
 
 export default class Drum {
     constructor() {
@@ -38,61 +19,42 @@ export default class Drum {
         this.drawnBalls = [];
     }
 
-    /*Maybe drawBall can be promise?*/
-
     asyncDrawBall = () => {
         return new Promise((resolve, reject) => {
-                let index = Math.floor(Math.random() * this.balls.length);
-                let drawnBall = this.balls[index];
-                this.balls.splice(index, 1);
+            const index = Math.floor(Math.random() * this.balls.length);
+            const drawnBall = this.balls[index];
+            this.balls.splice(index, 1);
 
-                this.drawnBalls.push(drawnBall);
+            this.drawnBalls.push(drawnBall);
 
-                let ballSlots = document.querySelectorAll(".number > div");
-                let number = this.drawnBalls[this.drawnBalls.length - 1].number;
-                ballSlots[this.drawnBalls.length - 1].style.backgroundColor = Ball.getColour(number);
-                ballSlots[this.drawnBalls.length - 1].innerHTML = number;
+            const ballSlots = document.querySelectorAll(".number > div");
+            const number = this.drawnBalls[this.drawnBalls.length - 1].number;
+            ballSlots[this.drawnBalls.length - 1].style.backgroundColor = Ball.getColour(number);
+            ballSlots[this.drawnBalls.length - 1].innerHTML = number;
 
-                resolve(drawnBall);
+            resolve(drawnBall);
         })
     };
 
-    drawBall = () => {
-        let index = Math.floor(Math.random() * this.balls.length);
-        let drawnBall = this.balls[index];
-        this.balls.splice(index, 1);
-
-        this.drawnBalls.push(drawnBall);
-
-        let ballSlots = document.querySelectorAll(".number > div");
-        let number = this.drawnBalls[this.drawnBalls.length - 1].number;
-        ballSlots[this.drawnBalls.length - 1].style.backgroundColor = Ball.getColour(number);
-        ballSlots[this.drawnBalls.length - 1].innerHTML = number;
-
-        //console.log(this.balls);
-        return drawnBall;
-    };
-
     shuffleDrumUI = () => {
-        let index = Math.floor(Math.random() * this.balls.length);
-        let ball = this.balls[index];
+        const index = Math.floor(Math.random() * this.balls.length);
+        const ball = this.balls[index];
 
-        let drumSlot = document.querySelector(".drum > div");
+        const drumSlot = document.querySelector(".drum > div");
         drumSlot.style.backgroundColor = Ball.getColour(ball.number);
         drumSlot.innerHTML = ball.number;
     };
 
     restartDrumUI = () => {
-        let drumSlot = document.querySelector(".drum > div");
+        const drumSlot = document.querySelector(".drum > div");
         drumSlot.style.backgroundColor = "#2b2b2b";
         drumSlot.innerHTML = '';
     };
 
     startDrawing = () => {
-
-        let intervalShuffle$ = interval(100).pipe(
-            map(val => this.drawnBalls.length),
-            takeWhile(val => val < 36)
+        const intervalShuffle$ = interval(100).pipe(
+            map(() => this.drawnBalls.length),
+            takeWhile(val => val < NUMBER_OF_BALLS_TO_DRAW)
         );
 
         intervalShuffle$.subscribe({
@@ -100,38 +62,25 @@ export default class Drum {
             complete: () => this.restartDrumUI()
         });
 
-
         /********************************************************************************/
-        let interval$ = interval(1000);
-
-        let intervalFilter$ = interval$.pipe(
-            filter(() => this.drawnBalls.length > 35)
+        const intervalDrawing$ = interval(1000).pipe(
+            takeWhile(() => this.drawnBalls.length < NUMBER_OF_BALLS_TO_DRAW)
         );
 
-        let drawing$ = interval$.pipe(
-            takeUntil(intervalFilter$)
-        );
-
-        drawing$.subscribe({
+        intervalDrawing$.subscribe({
             next: () => {
                 this.asyncDrawBall()
-                    .then((ball) => /*updatePredictedNumbers(ball.number)*/ this.round.updatePredictedNumbers(ball.number))
-                    .then(() => /*updatePredictedCombinations(this.drawnBalls, false)*/ this.round.updatePredictedCombinations(this.drawnBalls, false))
+                    .then((ball) => this.round.updatePredictedNumbers(ball.number))
+                    .then(() => this.round.updatePredictedCombinations(this.drawnBalls, false))
             },
             complete: () => {
-                console.log("Completed! Drawn numbers: ", this.drawnBalls);
-                /*updateUnpredictedNumbers(this.drawnBalls);
-                updatePredictedCombinations(this.drawnBalls, true);*/
                 this.round.updateUnpredictedNumbers(this.drawnBalls);
                 this.round.updatePredictedCombinations(this.drawnBalls, true);
                 this.round.drawnBalls = this.drawnBalls;
-                this.round.save();
-                    //.then(round => addRoundUI(round));
-                addRoundUI(this.round);
-                setTimeout(() => { restartUI(); gameLogic()}, 5000)
+                this.round.save()
+                    .then(round => addRoundUI(round));
+                setTimeout(() => { restartUI(); gameLogic() }, 5000)
             }
         });
-
     }
-
 }

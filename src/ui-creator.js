@@ -1,24 +1,17 @@
-import { NUMBER_OF_BALLS_TO_DRAW, OVERALL_NUMBER_OF_BALLS } from "./constants";
+import { COMBINATION_SIZE, NUMBER_OF_BALLS_TO_DRAW, OVERALL_NUMBER_OF_BALLS } from "./constants";
 import Ball from "./ball/ball";
 import Combination from "./combination/combination";
 
+import { SELECTED_NUMBERS, COMBINATIONS, TICKETS } from "./global";
 
-import {SELECTED_NUMBERS, COMBINATIONS, TICKETS} from "./global";
-import Ticket from "./ticket/ticket";
-import {restartSelectedNumbersUI} from "./combination/ui-creator";
-import {disablePayButton} from "./ticket/ui-creator";
-import {GET_ROUNDS} from "../api";
-import {addRoundUI} from "./round/ui-creator";
-import round from "./round/round";
-
-
-/*let SELECTED_NUMBERS = [];
-let COMBINATIONS = [];
-export let TICKETS = [];*/
+import { restartSelectedNumbersUI } from "./combination/ui-creator";
+import { disablePayButton } from "./ticket/ui-creator";
+import { GET_ROUNDS } from "../api";
+import { addRoundUI } from "./round/ui-creator";
 
 export const createDrawnNumbersPlaceholder = () => {
     const drawnNumbersPlaceHolder = document.getElementById("drawn-numbers");
-    for (let i = NUMBER_OF_BALLS_TO_DRAW; i >= 0; i--) {
+    for (let i = NUMBER_OF_BALLS_TO_DRAW; i > 0; i--) {
        const number = document.createElement("div");
        number.className = "number";
 
@@ -32,7 +25,6 @@ export const createDrawnNumbersPlaceholder = () => {
        number.appendChild(number_placeholder);
 
        drawnNumbersPlaceHolder.appendChild(number);
-
     }
 };
 
@@ -49,14 +41,14 @@ export const createSelectNumbersPlaceholder = () => {
 };
 
 const selectNumber = (event) => {
-    let index = SELECTED_NUMBERS.indexOf(parseInt(event.target.innerHTML));
+    const index = SELECTED_NUMBERS.indexOf(parseInt(event.target.innerHTML));
     if (index === -1) {
-        if (SELECTED_NUMBERS.length < 6) {
+        if (SELECTED_NUMBERS.length < COMBINATION_SIZE) {
             SELECTED_NUMBERS.push(parseInt(event.target.innerHTML));
             event.target.style.borderColor = Ball.getColour(parseInt(event.target.innerHTML));
         }
 
-        if (SELECTED_NUMBERS.length === 6) {
+        if (SELECTED_NUMBERS.length === COMBINATION_SIZE) {
             const addCombinationButton = document.getElementById("btn-add-combination");
             addCombinationButton.disabled = false;
         }
@@ -68,7 +60,6 @@ const selectNumber = (event) => {
         const addCombinationButton = document.getElementById("btn-add-combination");
         addCombinationButton.disabled = true;
     }
-    console.log(SELECTED_NUMBERS);
 };
 
 export const addCombination = () => {
@@ -83,7 +74,6 @@ export const addCombination = () => {
     span.onclick = deleteCombination;
     combination.appendChild(span);
     ticketContainer.appendChild(combination);
-    console.log(COMBINATIONS);
 
     restartSelectedNumbersUI();
     SELECTED_NUMBERS.splice(0, SELECTED_NUMBERS.length);
@@ -95,77 +85,11 @@ const deleteCombination = (event) => {
     COMBINATIONS.splice(combinationsDOM.indexOf(combination), 1);
     const ticketContainer = combination.parentNode;
     ticketContainer.removeChild(combination);
-
-    console.log(COMBINATIONS);
 };
 
 const addCombinationOnClickListener = () => {
     const addCombinationButton = document.getElementById("btn-add-combination");
     addCombinationButton.onclick = addCombination;
-};
-
-const addTicket = () => {
-    const ticket = new Ticket(COMBINATIONS);
-    const combinationValue = parseFloat(document.getElementById("txt-input-value").value);
-    ticket.setCombinationValue(combinationValue);
-    TICKETS.push(ticket);
-
-    console.log(TICKETS);
-
-    const ticketsContainer = document.getElementById("tickets-container");
-    ticketsContainer.hidden = false;
-
-    const ticketDiv = document.createElement("div");
-    ticketDiv.className = "col-12 content-item";
-    ticketDiv.id = ticket.id;
-
-
-    ticket.combinations.forEach((combination, combinationIndex) => {
-        const combinationContainerDiv = document.createElement("div");
-        combinationContainerDiv.className = "col-4 combination";
-        const col6Div = document.createElement("div");
-        col6Div.className = "col-6";
-        const combinationHolderDiv = document.createElement("div");
-        combinationHolderDiv.className = "combination-holder";
-
-        combination.numbers.forEach((number, numberIndex) => {
-            const numberP = document.createElement("p");
-            numberP.id = ticket.id + combinationIndex + numberIndex;
-            numberP.innerText = number;
-            combinationHolderDiv.appendChild(numberP);
-        });
-
-        const combinationInfoDiv = document.createElement("div");
-        combinationInfoDiv.className = "col-6 combination-info";
-        const wonP = document.createElement("p");
-        wonP.innerText = "won: 0";
-        const valueP = document.createElement("p");
-        valueP.innerText = "value: " + combination.value;
-        combinationInfoDiv.appendChild(wonP);
-        combinationInfoDiv.appendChild(valueP);
-
-        col6Div.appendChild(combinationHolderDiv);
-        combinationContainerDiv.appendChild(col6Div);
-        combinationContainerDiv.appendChild(combinationInfoDiv);
-
-        ticketDiv.appendChild(combinationContainerDiv);
-
-        ticketsContainer.appendChild(ticketDiv);
-
-    });
-
-
-    COMBINATIONS.length = 0;
-    const ticketPurchaseContainer = document.getElementById("ticket-purchase-container");
-    while (ticketPurchaseContainer.firstChild) {
-        ticketPurchaseContainer.firstChild.remove();
-    }
-    console.log(COMBINATIONS);
-};
-
-const addTicketOnClickListener = () => {
-    const payButton = document.getElementById("btn-pay");
-    payButton.onclick = addTicket;
 };
 
 const createRoundHistory = () => {
@@ -179,7 +103,6 @@ export const initializeUI = () => {
     createSelectNumbersPlaceholder();
     addCombinationOnClickListener();
     createRoundHistory();
-    //addTicketOnClickListener();
 };
 
 const restartPool = () => {

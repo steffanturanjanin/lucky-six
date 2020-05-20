@@ -10,101 +10,39 @@
 </head>
 <body>
     <nav class="navbar navbar-light bg-white header">
-        <a class="navbar-brand">Navbar</a>
+        <a class="navbar-brand">Lucky six</a>
     </nav>
 
-
-    <div class="container content-container" style="max-width: 70%">
+    <div class="container content-container">
         <div class="row" >
             <div class="col-12 content-item">
-                <div>
-                    <p style="float: left; font-size: 50px; font-weight: 600" id="minutes">minutes</p>
-                    <p style="float: left; font-size: 50px; font-weight: 600">:</p>
-                    <p style="float: left; font-size: 50px; font-weight: 600" id="seconds">seconds</p>
+                <div id="timer">
+                    <p id="minutes">minutes</p>
+                    <p>:</p>
+                    <p id="seconds">seconds</p>
                 </div>
                 <div class="drum">
-                    <div class="circle">
-
-                    </div>
+                    <div class="circle"></div>
                 </div>
-                <div class="drawn-numbers" id="drawn-numbers">
-                </div>
+                <div class="drawn-numbers" id="drawn-numbers"></div>
             </div>
 
-            <div id="tickets-container" hidden>
-                <!--<div class="col-12 content-item">
-                    <div class="col-4 combination">
-                        <div class="col-6">
-                                <div class="combination-holder">
-                                    <p>11</p>
-                                    <p>21</p>
-                                    <p>31</p>
-                                    <p>41</p>
-                                    <p>51</p>
-                                    <p>61</p>
-                                </div>
-                        </div>
-                        <div class="col-6 combination-info">
-                            <p>
-                                won: 50
-                            </p>
-                            <p>
-                              value: 30
-                            </p>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
+            <div id="tickets-container" hidden></div>
 
             <div class="col-12 content-item">
-                <div class="col-7" style="float: left; max-width: 480px;" id="select-numbers">
+                <div class="col-7" id="select-numbers"></div>
 
-                </div>
-
-                <div class="col-5" style="float: right">
-                    <button class="form-control" style="margin-bottom: 3px" id="btn-add-combination" disabled> Add combination </button>
-                    <div class="col-12 ticket-purchase-container" id="ticket-purchase-container">
-
-                    </div>
+                <div class="col-5" id="add-combination">
+                    <button class="form-control" id="btn-add-combination" disabled> Add combination </button>
+                    <div class="col-12 ticket-purchase-container" id="ticket-purchase-container"></div>
                     <input type="number" class="form-control" id="txt-input-value" placeholder="Amount: " value="30">
                     <button class="form-control" id="btn-pay"> Pay </button>
                 </div>
             </div>
             <div class="col-12 content-item" id="rounds-history">
-                <!--<div class="col-12 content-item">
-                    <p>Round id: 2131231</p>
-                    <div class="drawn-numbers">
-
-                    </div>
-                    <div class="col-12 content-item">
-                        <p style="float: left; margin: 0"> Ticket id: 121312</p>
-                        <div class="col-12" style="display: table-row">
-                            <div class="col-4 combination" style="margin: 3px; max-width: 280px">
-                                <div class="col-6 combination-holder">
-                                    <p style="margin-right: 3px">1</p>
-                                    <p style="margin-right: 3px">2</p>
-                                    <p style="margin-right: 3px">3</p>
-                                    <p style="margin-right: 3px">4</p>
-                                    <p style="margin-right: 3px">5</p>
-                                    <p style="margin-right: 3px">6</p>
-                                </div>
-                                <div class="col-6 combination-info">
-                                    <p>
-                                        won: 50
-                                    </p>
-                                    <p>
-                                        value: 30
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
-
-
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

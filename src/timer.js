@@ -1,5 +1,5 @@
-import { Observable, timer, NEVER, BehaviorSubject, fromEvent, of } from 'rxjs';
-import { map, tap, takeWhile, takeUntil, share, startWith, switchMap, filter } from 'rxjs/operators';
+import { timer, NEVER, BehaviorSubject } from 'rxjs';
+import { map, takeWhile, startWith, switchMap } from 'rxjs/operators';
 
 import { disablePayButton } from "./ticket/ui-creator";
 
@@ -9,7 +9,7 @@ export const countdownTimer = (onCompleteCallback) => {
 
     const K = 1000;
     const INTERVAL = K;
-    const MINUTES = 0.45;
+    const MINUTES = 0.5;
     const TIME = MINUTES * K * 60;
 
     let current;
@@ -25,18 +25,17 @@ export const countdownTimer = (onCompleteCallback) => {
 
     const currentSeconds = () => time / INTERVAL;
     const toMs = (t) => t * INTERVAL;
-    const toRemainingSeconds = (t) => currentSeconds() - t;
+    const toRemainingSeconds = (timer) => currentSeconds() - timer;
 
     const logic = () => {
         const remainingSeconds$ = toggle$.pipe(
             switchMap((running) => (running ? timer(0, INTERVAL) : NEVER)),
-            map(toRemainingSeconds),
+            map((timer) => toRemainingSeconds(timer)),
             takeWhile(t => t >= 0),
         );
 
         const ms$ = remainingSeconds$.pipe(
             map(toMs),
-            //tap(t => current = t)
         );
 
         const minutes$ = ms$.pipe(
@@ -50,7 +49,6 @@ export const countdownTimer = (onCompleteCallback) => {
             startWith(toSecondsDisplayString(time).toString())
         );
 
-        // update DOM
         const minutesElement = document.getElementById('minutes');
         const secondsElement = document.getElementById('seconds');
 
