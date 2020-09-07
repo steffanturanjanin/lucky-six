@@ -2,9 +2,8 @@ import { updatePredictedCombinationUI, updatePredictedNumbersUI } from "./ui-cre
 import { NUMBER_OF_BALLS_TO_DRAW } from "../constants";
 
 export default class Combination {
-    constructor(numbers, round) {
+    constructor(numbers) {
         this.numbers = numbers.slice();
-        this.round = round;
         this.value = 0;
         this.price = 0;
         this.won = false;

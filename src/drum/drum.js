@@ -1,7 +1,7 @@
 import { NUMBER_OF_BALLS_TO_DRAW, OVERALL_NUMBER_OF_BALLS } from "../constants";
 import Ball from "../ball/ball";
 
-import { interval, mapTo } from 'rxjs';
+import { interval } from 'rxjs';
 import { map, takeWhile } from 'rxjs/operators';
 
 import { gameLogic } from "../game";
@@ -12,15 +12,17 @@ import { addRoundUI } from "../round/ui-creator";
 export default class Drum {
     constructor() {
         this.round = new Round();
+
         this.balls = [];
         for (let i = 1; i <= OVERALL_NUMBER_OF_BALLS; i++) {
             this.balls.push(new Ball(i))
         }
+
         this.drawnBalls = [];
     }
 
     asyncDrawBall = () => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const index = Math.floor(Math.random() * this.balls.length);
             const drawnBall = this.balls[index];
             this.balls.splice(index, 1);
@@ -62,7 +64,6 @@ export default class Drum {
             complete: () => this.restartDrumUI()
         });
 
-        /********************************************************************************/
         const intervalDrawing$ = interval(1000).pipe(
             takeWhile(() => this.drawnBalls.length < NUMBER_OF_BALLS_TO_DRAW)
         );

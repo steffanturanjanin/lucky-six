@@ -2,7 +2,7 @@ import { COMBINATION_SIZE, NUMBER_OF_BALLS_TO_DRAW, OVERALL_NUMBER_OF_BALLS } fr
 import Ball from "./ball/ball";
 import Combination from "./combination/combination";
 
-import { SELECTED_NUMBERS, COMBINATIONS, TICKETS } from "./global";
+import { SELECTED_NUMBERS, COMBINATIONS } from "./global";
 
 import { restartSelectedNumbersUI } from "./combination/ui-creator";
 import { disablePayButton } from "./ticket/ui-creator";
@@ -11,6 +11,7 @@ import { addRoundUI } from "./round/ui-creator";
 
 export const createDrawnNumbersPlaceholder = () => {
     const drawnNumbersPlaceHolder = document.getElementById("drawn-numbers");
+
     for (let i = NUMBER_OF_BALLS_TO_DRAW; i > 0; i--) {
        const number = document.createElement("div");
        number.className = "number";
@@ -42,6 +43,7 @@ export const createSelectNumbersPlaceholder = () => {
 
 const selectNumber = (event) => {
     const index = SELECTED_NUMBERS.indexOf(parseInt(event.target.innerHTML));
+
     if (index === -1) {
         if (SELECTED_NUMBERS.length < COMBINATION_SIZE) {
             SELECTED_NUMBERS.push(parseInt(event.target.innerHTML));
@@ -71,6 +73,7 @@ export const addCombination = () => {
     combination.className = "col-12 combination";
     const span = document.createElement("span");
     span.innerText = "x";
+    span.style.cursor = "pointer";
     span.onclick = deleteCombination;
     combination.appendChild(span);
     ticketContainer.appendChild(combination);
@@ -107,7 +110,7 @@ export const initializeUI = () => {
 
 const restartPool = () => {
     const pool = document.querySelectorAll("#drawn-numbers .circle");
-    pool.forEach((slot) => { slot.style.backgroundColor = "#2b2b2b"; slot.innerHTML = ""})
+    pool.forEach((slot) => { slot.style.backgroundColor = "#2b2b2b"; slot.innerHTML = "" })
 };
 
 const restartTickets = () => {
@@ -115,7 +118,6 @@ const restartTickets = () => {
     while (ticketsContainer.firstChild) {
         ticketsContainer.firstChild.remove();
     }
-    TICKETS.length = 0;
 };
 
 export const restartUI = () => {

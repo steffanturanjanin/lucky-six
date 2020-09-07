@@ -7,7 +7,7 @@ export default class Ticket {
         this.id = uuidv4();
         this.combinations = [];
         combinations.forEach((combination) => {
-            this.combinations.push(new Combination(combination.numbers, 0));
+            this.combinations.push(new Combination(combination.numbers));
         });
     }
 

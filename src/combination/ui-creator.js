@@ -42,7 +42,7 @@ export const addCombinationRoundUI = (combination, drawn_balls) => {
     });
 
     const combinationInfo = document.createElement("div");
-    combinationInfo.className = "col-6 combination-info"
+    combinationInfo.className = "col-6 combination-info";
     const wonP = document.createElement("p");
     wonP.innerText = "won: " + combination.price;
     const valueP = document.createElement("p");

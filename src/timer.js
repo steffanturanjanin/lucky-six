@@ -1,19 +1,15 @@
-import { timer, NEVER, BehaviorSubject } from 'rxjs';
-import { map, takeWhile, startWith, switchMap } from 'rxjs/operators';
+import { timer } from 'rxjs';
+import { map, takeWhile, startWith } from 'rxjs/operators';
 
 import { disablePayButton } from "./ticket/ui-creator";
 
 export const countdownTimer = (onCompleteCallback) => {
 
-    const toggle$ = new BehaviorSubject(true);
-
     const K = 1000;
     const INTERVAL = K;
     const MINUTES = 0.5;
-    const TIME = MINUTES * K * 60;
 
-    let current;
-    let time = TIME;
+    let time =  MINUTES * K * 60;
 
     const toMinutesDisplay = (ms) => Math.floor(ms / K / 60);
     const toSecondsDisplay = (ms) => Math.floor(ms / K) % 60;
@@ -28,8 +24,7 @@ export const countdownTimer = (onCompleteCallback) => {
     const toRemainingSeconds = (timer) => currentSeconds() - timer;
 
     const logic = () => {
-        const remainingSeconds$ = toggle$.pipe(
-            switchMap((running) => (running ? timer(0, INTERVAL) : NEVER)),
+        const remainingSeconds$ = timer(0, INTERVAL).pipe(
             map((timer) => toRemainingSeconds(timer)),
             takeWhile(t => t >= 0),
         );

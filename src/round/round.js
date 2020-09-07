@@ -19,7 +19,7 @@ export default class Round {
 
     addTicket = () => {
         if (COMBINATIONS.length > 0) {
-            addTicketUI(this.tickets);
+            this.tickets.push(addTicketUI());
         }
     };
 

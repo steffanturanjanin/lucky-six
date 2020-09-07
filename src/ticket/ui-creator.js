@@ -7,7 +7,7 @@ export const disablePayButton = (disable) => {
     document.getElementById("btn-pay").disabled = disable;
 };
 
-export const addTicketUI = (tickets) => {
+export const addTicketUI = () => {
     const ticket = new Ticket(COMBINATIONS);
     let combinationValue = parseFloat(document.getElementById("txt-input-value").value);
 
@@ -16,7 +16,6 @@ export const addTicketUI = (tickets) => {
     }
 
     ticket.setCombinationValue(combinationValue);
-    tickets.push(ticket);
 
     const ticketsContainer = document.getElementById("tickets-container");
     ticketsContainer.hidden = false;
@@ -66,6 +65,8 @@ export const addTicketUI = (tickets) => {
     while (ticketPurchaseContainer.firstChild) {
         ticketPurchaseContainer.firstChild.remove();
     }
+
+    return ticket;
 };
 
 export const addTicketRoundUI = (ticket, drawn_balls) => {

@@ -3,14 +3,14 @@ import { BLACK, BLUE, BROWN, COLOURS, GREEN, KHAKI, PURPLE, RED, YELLOW } from "
 export default class Ball {
     constructor(number) {
         this.number = number;
-        this.colour = COLOURS[(number - 1) % (COLOURS.length)];
+        this.colour = Ball.getColourName(number);
     }
 
     static getColourName = (number) => {
         return COLOURS[(number - 1) % (COLOURS.length)];
     };
 
-     static getColour = (number) => {
+    static getColour = (number) => {
         switch (Ball.getColourName(number)) {
             case RED : {
                 return "#eb3434"
