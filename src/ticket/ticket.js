@@ -14,6 +14,7 @@ export default class Ticket {
     updatePredictedNumbers = (number) => {
         this.combinations.forEach((combination, combination_id) => {
             const number_id = combination.predictedNumber(number);
+
             if (number_id !== -1) {
                 updatePredictedNumbersUI(this.id, combination_id, number_id, true);
             }

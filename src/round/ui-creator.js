@@ -1,3 +1,4 @@
+import { GET_ROUNDS } from "../../api";
 import { addTicketRoundUI } from "../ticket/ui-creator";
 import Ball from "../ball/ball";
 
@@ -12,10 +13,13 @@ export const addRoundUI = (round) => {
     }
 
     const roundHistory = document.getElementById("rounds-history");
+
     const roundContainer = document.createElement("div");
     roundContainer.className = "col-12 content-item";
+
     const roundId = document.createElement("p");
     roundId.innerText = "Round id: " + round.id;
+
     const drawnNumbers = document.createElement("div");
     drawnNumbers.className = "drawn-numbers";
 
@@ -37,5 +41,10 @@ export const addRoundUI = (round) => {
     });
 
     roundHistory.insertBefore(roundContainer, roundHistory.firstChild);
+};
 
+export const createRoundHistory = () => {
+    GET_ROUNDS()
+        .then(rounds => rounds.filter(round => round.tickets.length > 0))
+        .then(rounds => rounds.forEach(round => addRoundUI(round)))
 };

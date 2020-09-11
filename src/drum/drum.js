@@ -1,80 +1,79 @@
-import { NUMBER_OF_BALLS_TO_DRAW, OVERALL_NUMBER_OF_BALLS } from "../constants";
 import Ball from "../ball/ball";
+import Round from "../round/round";
 
-import { interval } from 'rxjs';
-import { map, takeWhile } from 'rxjs/operators';
+import { NUMBER_OF_BALLS_TO_DRAW, OVERALL_NUMBER_OF_BALLS } from "../constants";
+
+import { interval, zip, from, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { gameLogic } from "../game";
-import { restartUI } from "../ui-creator";
-import Round from "../round/round";
+
+import { restartUI } from "../ui/index";
 import { addRoundUI } from "../round/ui-creator";
+import { fillBallSlotUI, restartDrumUI, shuffleDrumUI } from "./ui-creator";
 
 export default class Drum {
     constructor() {
         this.round = new Round();
 
         this.balls = [];
+
         for (let i = 1; i <= OVERALL_NUMBER_OF_BALLS; i++) {
             this.balls.push(new Ball(i))
         }
 
+        this.orderNumbers = [];
         this.drawnBalls = [];
-    }
 
-    asyncDrawBall = () => {
-        return new Promise((resolve) => {
+        for (let i = NUMBER_OF_BALLS_TO_DRAW; i > 0; i--) {
+            this.orderNumbers.push(i);
+
             const index = Math.floor(Math.random() * this.balls.length);
-            const drawnBall = this.balls[index];
             this.balls.splice(index, 1);
 
+            const drawnBall = this.balls[index];
             this.drawnBalls.push(drawnBall);
+        }
 
-            const ballSlots = document.querySelectorAll(".number > div");
-            const number = this.drawnBalls[this.drawnBalls.length - 1].number;
-            ballSlots[this.drawnBalls.length - 1].style.backgroundColor = Ball.getColour(number);
-            ballSlots[this.drawnBalls.length - 1].innerHTML = number;
+        this.finished$ = new Subject();
+    }
 
-            resolve(drawnBall);
-        })
-    };
-
-    shuffleDrumUI = () => {
+    shuffleDrum = () => {
         const index = Math.floor(Math.random() * this.balls.length);
         const ball = this.balls[index];
 
-        const drumSlot = document.querySelector(".drum > div");
-        drumSlot.style.backgroundColor = Ball.getColour(ball.number);
-        drumSlot.innerHTML = ball.number;
+        shuffleDrumUI(ball);
     };
 
-    restartDrumUI = () => {
-        const drumSlot = document.querySelector(".drum > div");
-        drumSlot.style.backgroundColor = "#2b2b2b";
-        drumSlot.innerHTML = '';
+    restartDrum = () => {
+        restartDrumUI();
     };
 
     startDrawing = () => {
         const intervalShuffle$ = interval(100).pipe(
-            map(() => this.drawnBalls.length),
-            takeWhile(val => val < NUMBER_OF_BALLS_TO_DRAW)
+            takeUntil(this.finished$)
         );
 
         intervalShuffle$.subscribe({
-            next: () => this.shuffleDrumUI(),
-            complete: () => this.restartDrumUI()
+            next: () => this.shuffleDrum(),
+            complete: () => this.restartDrum()
         });
 
-        const intervalDrawing$ = interval(1000).pipe(
-            takeWhile(() => this.drawnBalls.length < NUMBER_OF_BALLS_TO_DRAW)
+        const orderNumbers$ = from(this.orderNumbers);
+        const drawnNumbers$ = from(this.drawnBalls);
+
+        const zipped$ = zip(drawnNumbers$, orderNumbers$, interval(1000)).pipe(
+            map(([ball, order]) => ({ ball, order })),
         );
 
-        intervalDrawing$.subscribe({
-            next: () => {
-                this.asyncDrawBall()
-                    .then((ball) => this.round.updatePredictedNumbers(ball.number))
-                    .then(() => this.round.updatePredictedCombinations(this.drawnBalls, false))
+        zipped$.subscribe({
+            next: (pair) => {
+                fillBallSlotUI(pair);
+                this.round.updatePredictedNumbers(pair.ball.number);
+                this.round.updatePredictedCombinations(this.drawnBalls, false);
             },
             complete: () => {
+                this.finished$.next(true);
                 this.round.updateUnpredictedNumbers(this.drawnBalls);
                 this.round.updatePredictedCombinations(this.drawnBalls, true);
                 this.round.drawnBalls = this.drawnBalls;

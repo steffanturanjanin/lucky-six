@@ -1,7 +1,9 @@
 import Drum from "./drum/drum";
-import { countdownTimer } from "./timer";
+import CountdownTimer from "./timer";
 
 export const gameLogic = () => {
     let drum = new Drum();
-    countdownTimer(drum.startDrawing);
+    let timer = new CountdownTimer(1000, 0.5);
+
+    timer.countDown(drum.startDrawing);
 };

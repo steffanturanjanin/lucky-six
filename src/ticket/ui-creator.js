@@ -90,3 +90,10 @@ export const addTicketRoundUI = (ticket, drawn_balls) => {
 
     return ticketContainer;
 };
+
+export const restartTickets = () => {
+    const ticketsContainer = document.getElementById("tickets-container");
+    while (ticketsContainer.firstChild) {
+        ticketsContainer.firstChild.remove();
+    }
+};

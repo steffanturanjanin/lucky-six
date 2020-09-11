@@ -162,6 +162,18 @@ body {
     margin-right: 3px;
 }
 
-#tickets-container {
+#notifications p {
+    color: green;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+#notifications {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tickets-container, #notifications {
     width: 100%;
 }

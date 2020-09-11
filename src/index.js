@@ -1,4 +1,4 @@
-import { initializeUI } from "./ui-creator";
+import { initializeUI } from "./ui/index";
 import { gameLogic } from "./game";
 
 initializeUI();

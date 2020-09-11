@@ -3,45 +3,45 @@ import { map, takeWhile, startWith } from 'rxjs/operators';
 
 import { disablePayButton } from "./ticket/ui-creator";
 
-export const countdownTimer = (onCompleteCallback) => {
+export default class CountdownTimer {
+    constructor(interval, minutes ) {
+        this.interval = interval;
+        this.minutes = minutes;
+        this.time = this.minutes * this.interval * 60;
+    }
 
-    const K = 1000;
-    const INTERVAL = K;
-    const MINUTES = 0.5;
+    toMinutesDisplay = (ms) => Math.floor(ms / this.interval / 60);
 
-    let time =  MINUTES * K * 60;
+    toSecondsDisplay = (ms) => Math.floor(ms / this.interval) % 60;
 
-    const toMinutesDisplay = (ms) => Math.floor(ms / K / 60);
-    const toSecondsDisplay = (ms) => Math.floor(ms / K) % 60;
-
-    const toSecondsDisplayString = (ms) => {
-        const seconds = toSecondsDisplay(ms);
+    toSecondsDisplayString = (ms) => {
+        const seconds = this.toSecondsDisplay(ms);
         return seconds < 10 ? `0${seconds}` : seconds.toString();
     };
 
-    const currentSeconds = () => time / INTERVAL;
-    const toMs = (t) => t * INTERVAL;
-    const toRemainingSeconds = (timer) => currentSeconds() - timer;
+    currentSeconds = () => this.time / this.interval;
+    toMs = (t) => t * this.interval;
+    toRemainingSeconds = (timer) => this.currentSeconds() - timer;
 
-    const logic = () => {
-        const remainingSeconds$ = timer(0, INTERVAL).pipe(
-            map((timer) => toRemainingSeconds(timer)),
+    countDown = (onCompleteCallback) => {
+        const remainingSeconds$ = timer(0, this.interval).pipe(
+            map((timer) => this.toRemainingSeconds(timer)),
             takeWhile(t => t >= 0),
         );
 
         const ms$ = remainingSeconds$.pipe(
-            map(toMs),
+            map(this.toMs),
         );
 
         const minutes$ = ms$.pipe(
-            map(toMinutesDisplay),
+            map(this.toMinutesDisplay),
             map(s => s.toString()),
-            startWith(toMinutesDisplay(time).toString())
+            startWith(this.toMinutesDisplay(this.time).toString())
         );
 
         const seconds$ = ms$.pipe(
-            map(toSecondsDisplayString),
-            startWith(toSecondsDisplayString(time).toString())
+            map(this.toSecondsDisplayString),
+            startWith(this.toSecondsDisplayString(this.time).toString())
         );
 
         const minutesElement = document.getElementById('minutes');
@@ -60,7 +60,5 @@ export const countdownTimer = (onCompleteCallback) => {
         function updateDom(source$, element) {
             source$.subscribe((value) => element.innerHTML = value);
         }
-    };
-
-    logic();
-};
+    }
+}
